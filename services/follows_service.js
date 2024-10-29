@@ -39,14 +39,14 @@ const unfollow = async (userId, followUserId) => {
     };
     return foundUser1;
 };
-const getAllFollowers = async (userId) => {
-    const foundUser = await User.findById(userId).populate("followers", "username");
+const getAllFollowers = async (userId1, userId2) => {
+    const foundUser = await User.findById(userId2).populate("followers", "username");
     if (!foundUser) {
         throw new Error("user not found");
     };
     return foundUser.followers;
 };
-const getAllfollowings = async (userId) => {
+const getAllfollowings = async (userId1, userId2) => {
     const foundUser = await User.findById(userId).populate("following", "username");
     if (!foundUser) {
         throw new Error("user not found");

@@ -9,7 +9,7 @@ const blockUser = async (userId, blockUserId) => {
         foundUser.blocks.push(blockUserId);
         await foundUser.save();
     };
-    return {blockedUser: blockUserId};
+    return { blockedUser: blockUserId };
 };
 
 const unblockUser = async (userId, unblockUserId) => {
@@ -22,11 +22,14 @@ const unblockUser = async (userId, unblockUserId) => {
         foundUser.blocks = foundUser.blocks.filter(blockUser => blockUser.toString() !== unblockUserId);
         await foundUser.save();
     };
-    return {unblockedUser: unblockUserId};
+    return { unblockedUser: unblockUserId };
 };
 
-const getAllBlockedUser = async (userId) => {
-    const foundUser = await User.findById(userId).populate("following", "username");
+const getAllBlockedUser = async (userId1, userId2) => {
+    if (userId1 !== userId2) {
+        throw new Error("not authorized to view the blocks list");
+    };
+    const foundUser = await User.findById(userId2).populate("following", "username");
     if (!foundUser) {
         throw new Error("user not found");
     };
